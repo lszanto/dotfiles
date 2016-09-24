@@ -1,0 +1,22 @@
+#!/bin/bash
+
+# grab muted status
+MUTE=`amixer get Master | egrep "Playback.*?\[o" | egrep -o "\[o.+\]"`
+
+# if muted
+if [ $MUTE = '[off]' ]; then
+    echo ' muted'
+    exit 0
+fi
+
+# if still running get volume
+VOL=`amixer get Master | egrep -o "[0-9]+%"`
+
+# show volume
+echo ' ' $VOL
+
+# if a button was used
+case $BLOCK_BUTTON in
+    4) (amixer -q set Master 5%+ && pkill -RTMIN+1 i3blocks) ;;
+    5) (amixer -q set Master 5%- && pkill -RTMIN+1 i3blocks) ;;
+esac

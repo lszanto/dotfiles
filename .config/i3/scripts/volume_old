@@ -1,0 +1,22 @@
+#!/usr/bin/python2
+# -*- coding: utf-8 -*-
+
+import os
+
+# grab muted status
+muted = os.popen('amixer get Master | egrep "Playback.*?\[o" | egrep -o "\[o.+\]"').read().strip()
+
+# if muted show muted
+if muted == '[off]':
+    print ' muted'
+    exit()
+
+# grab volume
+vol = os.popen('amixer get Master | egrep -o "[0-9]+%"').read().strip()
+
+# if we're here just show volume
+print ' ' + vol
+
+# run notification letting user know
+# disabled as probably not needed when this is shown in the panel
+# os.system('notify-send -i audio-volume-high "Volume" "' + vol + '"')
