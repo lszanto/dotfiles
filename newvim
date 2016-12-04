@@ -1,0 +1,168 @@
+" Required by vundle
+set nocompatible
+filetype off
+
+" Set runtime and init
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+
+" Let vundle manage vundle
+Plugin 'VundleVim/Vundle.vim'
+
+" Vundle plugins
+Plugin 'majutsushi/tagbar'
+
+Plugin 'scrooloose/nerdtree' 
+Plugin 'Xuyuanp/nerdtree-git-plugin'
+
+Plugin 'tpope/vim-fugitive'
+
+Plugin 'scrooloose/syntastic'
+
+Plugin 'ctrlpvim/ctrlp.vim'
+
+Plugin 'ervandew/supertab'
+
+Plugin 'vim-airline/vim-airline' " DONE
+Plugin 'vim-airline/vim-airline-themes' " DONE
+
+Plugin 'airblade/vim-gitgutter' " Provides git updates next to line numbers. DONE
+
+" Php specific plugins
+Plugin 'vim-php/tagbar-phpctags.vim'
+Plugin 'arnaud-lb/vim-php-namespace'
+Plugin '2072/PHP-Indenting-for-VIm'
+Plugin 'Rican7/php-doc-modded'
+Plugin 'shawncplus/phpcomplete.vim'
+
+" Done with vundle
+call vundle#end()
+filetype plugin indent on
+
+" Resume vimrc
+
+" Colors
+colorscheme jellybeans
+syntax enable
+
+" Change leader
+"let mapleader = "\<Space>"
+
+" Spaces + tabs
+set tabstop=4 " visual spaces per tab
+set softtabstop=4 " num actual spaces inserted for tab
+set shiftwidth=4
+set expandtab " tabs are spaces
+set smarttab
+
+" File tab controls
+nmap <c-t> :tabnew<CR>
+nmap <s-w> :tabclose<CR>
+nmap <s-tab> :tabnext<CR>
+
+" UI
+set number
+set showcmd
+set cursorline
+filetype indent on
+set wildmenu
+set lazyredraw
+set showmatch
+autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
+
+" Searching
+set incsearch
+set hlsearch
+noremap <leader><space> :nohlsearch<CR>
+
+" Code folds
+set foldenable
+set foldlevelstart=10
+set foldnestmax=10
+nnoremap <space> za
+set foldmethod=indent
+
+" Movement
+nnoremap j gj
+nnoremap k gk
+
+" Completion option
+set completeopt=longest,menuone
+
+""
+"" Nerd tree setup
+""
+
+" Set ctrl+n to open/close
+nnoremap <c-n> :NERDTreeToggle<CR>
+
+" If opened without a file open nerdtree
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+
+" Close nerdtree if only window open
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+
+""
+"" Tagbar setup
+""
+
+" Toggle on ctrl+b
+nnoremap <c-b> :TagbarToggle<CR>
+
+" phpctags over ctags
+let g:tagbar_phpctags_bin='phpctags'
+
+" Turn off alpha sorting
+let g:tagbar_sort=0
+
+""
+"" Air status bar setup
+""
+
+" Status bar
+set laststatus=2
+let g:airline_theme='wombat'
+
+""
+"" Php insert use
+""
+
+" Insert use on \u
+function! IPhpInsertUse()
+    call PhpInsertUse()
+    call feedkeys('a',  'n')
+endfunction
+autocmd FileType php inoremap <Leader>u <Esc>:call IPhpInsertUse()<CR>
+autocmd FileType php noremap <Leader>u :call PhpInsertUse()<CR>
+
+""
+"" Synastic
+""
+
+" Turn on checkers
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_php_checkers = ['php', 'phpcs']
+let g:syntastic_php_phpcs_post_args = '--standard=PSR2'
+
+""
+"" Php autocomplete
+""
+
+let g:phpcomplete_relax_static_constraint=0
+let g:phpcomplete_complete_for_unknown_classes=1
+let g:phpcomplete_search_tags_for_variables=1
+let g:phpcomplete_min_num_of_chars_for_namespace_completion=1
+
+""
+"" Git gutter
+""
+
+set updatetime=250
+
+""
+"" Autocomplete helpers
+""
+
+autocmd FileType php setlocal omnifunc=phpcomplete#CompletePHP
+let g:SuperTabDefaultCompletionType = '<c-x><c-o>'
