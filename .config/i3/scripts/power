@@ -1,6 +1,6 @@
 #!/bin/sh
 
-choice=$(rofi -p "> " -dmenu < ~/.config/i3/scripts/power_options -eh 2 width 100 -padding 50 -opacity "85" -bw 0 -bc "#000000" -bg "#000000" -fg "#333333" -hlbg "#000000" -hlfg "#ffffff" -font "Open Sans 18")
+choice=$(rofi -p "> " -dmenu < ~/.config/i3/scripts/power_options -eh 1 -height 20 -width 100 -padding 80 -opacity "85" -bw 0 -bc "#000000" -bg "#000000" -fg "#333333" -hlbg "#000000" -hlfg "#ffffff" -font "Open Sans 18")
 
 if [[ $choice == "  logout" ]]; then
     i3-msg exit
